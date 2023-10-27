@@ -17,6 +17,12 @@ void printFalse() {
 	cout << "맵을 벗어났습니다. 다시 돌아갑니다." << endl;
 }
 
+//맵을 벗어나지 않고 원하는 방향으로 이동 가능할 때 줄력할 함수
+void printTrue(string move) {
+	cout << move << "쪽으로 한 칸 이동합니다." << endl;
+	hp -= 1;  // 이동할 때 체력 1 감소
+}
+
 // 메인  함수
 int main() {
 	// 0은 빈 공간, 1은 아이템, 2는 적, 3은 포션, 4는 목적지
@@ -48,13 +54,13 @@ int main() {
 			user_y -= 1;
 			bool inMap = checkXY(user_x, mapX, user_y, mapY);
 			if (inMap == false) {
-				printFalse();
+				printFalse();  // 맵을 벗어날 때 출력할 함수 호출
 				user_y += 1;
 				continue;
 			}
 			else {
-				cout << "위로 한 칸 올라갑니다." << endl;
-				hp -= 1;
+				string move = "위";
+				printTrue(move);  // 맵을 벗어나지 않을 때 출력할 함수 호출
 				displayMap(map, user_x, user_y);
 			}
 		}
@@ -63,13 +69,13 @@ int main() {
 			user_y += 1;
 			bool inMap = checkXY(user_x, mapX, user_y, mapY);
 			if (inMap == false) {
-				printFalse();
+				printFalse();  // 맵을 벗어날 때 출력할 함수 호출
 				user_y -= 1;
 				continue;
 			}
 			else {
-				cout << "아래로 한 칸 내려갑니다." << endl;
-				hp -= 1;
+				string move = "아래";
+				printTrue(move);  // 맵을 벗어나지 않을 때 출력할 함수 호출
 				displayMap(map, user_x, user_y);
 			}
 		}
@@ -78,13 +84,13 @@ int main() {
 			user_x -= 1;
 			bool inMap = checkXY(user_x, mapX, user_y, mapY);
 			if (inMap == false) {
-				printFalse();
+				printFalse();  // 맵을 벗어날 때 출력할 함수 호출
 				user_x += 1;
 				continue;
 			}
 			else {
-				cout << "왼쪽으로 이동합니다." << endl;
-				hp -= 1;
+				string move = "왼";
+				printTrue(move);  // 맵을 벗어나지 않을 때 출력할 함수 호출
 				displayMap(map, user_x, user_y);
 			}
 		}
@@ -93,19 +99,20 @@ int main() {
 			user_x += 1;
 			bool inMap = checkXY(user_x, mapX, user_y, mapY);
 			if (inMap == false) {
-				printFalse();
+				printFalse();  // 맵을 벗어날 때 출력할 함수 호출
 				user_x -= 1;
 				continue;
 			}
 			else {
-				cout << "오른쪽으로 이동합니다." << endl;
-				hp -= 1;
+				string move = "오른";
+				printTrue(move);  // 맵을 벗어나지 않을 때 출력할 함수 호출
 				displayMap(map, user_x, user_y);
 			}
 		}
 		else if (user_input == "지도") {
 			// 지도 보여주기 함수 호출
 			displayMap(map, user_x, user_y);
+			continue;
 		}
 		else if (user_input == "종료") {
 			cout << "종료합니다.";
@@ -115,10 +122,10 @@ int main() {
 			cout << "잘못된 입력입니다." << endl;
 			continue;
 		}
-		
+
 		// 아이템, 포션, 적을 만났을 때 그에 대한 메시지 출력 & HP 감소/증가
 		checkState(map, user_x, user_y);
-		
+
 		// HP가 0 이하가 되면 게임 종료
 		if (hp <= 0) {
 			cout << "HP가 0 이하가 되었습니다. 실패했습니다." << endl;
